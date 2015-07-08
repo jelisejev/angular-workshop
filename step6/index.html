@@ -14,6 +14,6 @@
 </head>
 <body ng-app="moviedb" ng-controller="MainController as mv">
     <mdb-movie-search on-select="mv.select(movie)"></mdb-movie-search>
-    <mdb-movie movie="mv.movie" ng-if="mv.movie !== null"></mdb-movie>
+    <mdb-movie movie="mv.movie" ng-if="mv.movie"></mdb-movie>
 </body>
 </html>
