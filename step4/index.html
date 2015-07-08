@@ -16,7 +16,7 @@
             <li ng-repeat="result in mv.results" ng-click="mv.select(result)">{{result.title}}</li>
         </ul>
     </div>
-    <div ng-if="mv.movie !== null">
+    <div ng-if="mv.movie">
         <h2>{{mv.movie.title}}</h2>
         <p>{{mv.movie.overview}}</p>
     </div>
