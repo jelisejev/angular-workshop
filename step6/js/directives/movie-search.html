@@ -1,5 +1,5 @@
 <div class="search">
-    <input placeholder="Search" ng-model="mv.query" ng-change="mv.search(search.query)">
+    <input placeholder="Search" ng-model="mv.query" ng-change="mv.search(mv.query)">
     <ul class="results">
         <li ng-repeat="result in mv.results" ng-click="mv.select(result)">{{result.title}}</li>
     </ul>
