@@ -6,7 +6,7 @@ angular.module('moviedb').directive('mdbMovieSearch', function(movies) {
             onSelect: '&'
         },
         bindToController: true,
-        controllerAs: 'search',
+        controllerAs: 'mv',
         controller: function() {
             // mock search results
             this.results = [];

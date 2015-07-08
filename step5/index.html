@@ -10,16 +10,16 @@
     <script src="js/services/movies.js"></script>
     <title></title>
 </head>
-<body ng-app="moviedb" ng-controller="MainController as main">
+<body ng-app="moviedb" ng-controller="MainController as mv">
     <div class="search">
-        <input placeholder="Search" ng-model="main.query" ng-change="main.search(main.query)">
+        <input placeholder="Search" ng-model="mv.query" ng-change="mv.search(mv.query)">
         <ul class="results">
-            <li ng-repeat="result in main.results" ng-click="main.select(result)">{{result.title}}</li>
+            <li ng-repeat="result in mv.results" ng-click="mv.select(result)">{{result.title}}</li>
         </ul>
     </div>
-    <div ng-if="main.movie !== null">
-        <h2>{{main.movie.title}}</h2>
-        <p>{{main.movie.overview}}</p>
+    <div ng-if="mv.movie !== null">
+        <h2>{{mv.movie.title}}</h2>
+        <p>{{mv.movie.overview}}</p>
     </div>
 </body>
 </html>
