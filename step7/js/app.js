@@ -6,12 +6,12 @@ angular.module('moviedb', ['ngResource', 'ngRoute'])
           when('/', {
             templateUrl: 'js/controllers/main.html',
             controller: 'MainController',
-            controllerAs: 'mv'
+            controllerAs: 'vm'
           }).
           when('/movie/:movieId', {
             templateUrl: 'js/controllers/movie.html',
             controller: 'MovieController',
-            controllerAs: 'mv'
+            controllerAs: 'vm'
           }).
           otherwise({
             redirectTo: '/'

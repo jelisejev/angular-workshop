@@ -6,7 +6,7 @@ angular.module('moviedb').directive('mdbMovie', function(movies) {
             movie: '='
         },
         bindToController: true,
-        controllerAs: 'mv',
+        controllerAs: 'vm',
         controller: function() {}
     }
 });

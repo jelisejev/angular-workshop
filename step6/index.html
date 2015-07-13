@@ -12,8 +12,8 @@
     <script src="js/directives/movie.js"></script>
     <title></title>
 </head>
-<body ng-app="moviedb" ng-controller="MainController as mv">
-    <mdb-movie-search on-select="mv.select(movie)"></mdb-movie-search>
-    <mdb-movie movie="mv.movie" ng-if="mv.movie"></mdb-movie>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <mdb-movie-search on-select="vm.select(movie)"></mdb-movie-search>
+    <mdb-movie movie="vm.movie" ng-if="vm.movie"></mdb-movie>
 </body>
 </html>

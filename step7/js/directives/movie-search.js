@@ -5,7 +5,7 @@ angular.module('moviedb').directive('mdbMovieSearch', function(movies, $location
         scope: {
         },
         bindToController: true,
-        controllerAs: 'mv',
+        controllerAs: 'vm',
         controller: function() {
             // mock search results
             this.results = [];

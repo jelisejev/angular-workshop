@@ -9,16 +9,16 @@
     <script src="js/controllers/main.js"></script>
     <title></title>
 </head>
-<body ng-app="moviedb" ng-controller="MainController as mv">
+<body ng-app="moviedb" ng-controller="MainController as vm">
     <div class="search">
-        <input placeholder="Search" ng-model="mv.query" ng-change="mv.search(mv.query)">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
         <ul class="results">
-            <li ng-repeat="result in mv.results" ng-click="mv.select(result)">{{result.title}}</li>
+            <li ng-repeat="result in vm.results" ng-click="vm.select(result)">{{result.title}}</li>
         </ul>
     </div>
-    <div class="movie" ng-if="mv.movie">
-        <h2>{{mv.movie.title}}</h2>
-        <p>{{mv.movie.overview}}</p>
+    <div class="movie" ng-if="vm.movie">
+        <h2>{{vm.movie.title}}</h2>
+        <p>{{vm.movie.overview}}</p>
     </div>
 </body>
 </html>

@@ -9,11 +9,11 @@
     <script src="js/controllers/main.js"></script>
     <title></title>
 </head>
-<body ng-app="moviedb" ng-controller="MainController as mv">
+<body ng-app="moviedb" ng-controller="MainController as vm">
     <div class="search">
-        <input placeholder="Search" ng-model="mv.query" ng-change="mv.search(mv.query)">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
         <ul class="results">
-            <li ng-repeat="result in mv.results">{{result.title}}</li>
+            <li ng-repeat="result in vm.results">{{result.title}}</li>
         </ul>
     </div>
 </body>
