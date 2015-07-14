@@ -40,7 +40,7 @@ The API endpoint is http://api.themoviedb.org/3/. The following API key can be u
 
 The following guide contains step-by-step instructions on how to recreate this app. The guide is divided into multiple steps, each focusing on its own aspect of Angular JS. In case you get stuck at some point or you'll wish to fast-forward ahead, the final results of each step is available in the `tags` folder.
 
-### Step 1: initial markup and styles
+### Step 1. Initial markup and styles
 
 The result of step 1 is already available in the `app` folder. It contains the basic HTML markup and CSS styles that will be used in the project.
 
@@ -106,4 +106,62 @@ and `styles.css`
 .search .results li:hover {
     background: #DCEFFC;
 }
+```
+
+### Step 2. Bootstrapping Angular JS
+
+In this step we'll add Angular JS to our application.
+
+First of all, create a bower.json file and install Angular using bower.
+```
+bower init
+bower install angular --save
+```
+
+Create the folders to contain our JS files: `js` and `js/controllers`.
+
+Create an Angular module definition file and save it to `js/app.js`.
+```js
+angular.module('moviedb', []);
+```
+
+Create a basic controller with some mock data and save it as `js/controllers/main.js`.
+```js
+angular.module('moviedb')
+    .controller('MainController', function() {
+        // mock search results
+        this.results = [
+            { title: 'Game of Thrones' },
+            { title: 'The Shining' },
+            { title: 'Goodfellas' },
+        ];
+
+        // search onchange handler
+        this.search = function(query) {
+            console.log(query);
+        };
+    });
+```
+
+Update the `index.html` file to include the newly created files and implement the Angular app.
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <div class="search">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
+        <ul class="results">
+            <li ng-repeat="result in vm.results">{{result.title}}</li>
+        </ul>
+    </div>
+</body>
+</html>
 ```
