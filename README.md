@@ -1,5 +1,7 @@
 # Movie search application using Angular JS
 
+This simple step-by-step guide will demonstrate how Angular JS can be used to create dynamic single page applications.
+
 ## Environment setup
 
 Download and install node from https://nodejs.org/download/.
