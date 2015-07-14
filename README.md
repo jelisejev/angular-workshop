@@ -3,6 +3,7 @@
 ## Environment setup
 
 Download and install node from https://nodejs.org/download/.
+
 Use npm to install bower.
 ```
 npm install -g bower
