@@ -24,7 +24,7 @@ cd angular-workshop
 http-server
 ```
 
-The application should be available at http://0.0.0.0:8080/app
+The application should be available at http://0.0.0.0:8080/app.
 
 ## About the API
 
@@ -35,3 +35,5 @@ Two methods are used in this workshop: [/search/movie](http://docs.themoviedb.ap
 The API endpoint is http://api.themoviedb.org/3/. The following API key can be used during the workshop `739c4bd0ee4c3bb16d622312d23d7b8a`.
 
 ## Step-by-step guide
+
+The following guide contains step-by-step instructions on how to recreate this app. The guide is divided into multiple steps, each focusing on its own aspect of Angular JS. In case you get stuck at some point or you'll wish to fast-forward ahead, the final results of each step is available in the `tags` folder.
