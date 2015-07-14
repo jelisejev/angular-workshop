@@ -2,22 +2,28 @@
 
 ## Environment setup
 
-1. Download and install node from https://nodejs.org/download/
-2. Use npm to install bower
+Download and install node from https://nodejs.org/download/.
+Use npm to install bower.
 ```
 npm install -g bower
 ```
-3. Install a basic node http server
+Install a basic node http server.
 ```
 npm install -g http-server
 ```
-4. Switch to the app folder and run the server
+
+## Running the app
+Download the project either using git or [as an archive](https://github.com/jelisejev/angular-workshop/archive/master.zip)
 ```
-cd app
+git clone https://github.com/jelisejev/angular-workshop.git
+```
+Switch to the project folder and run the server.
+```
+cd angular-workshop
 http-server
 ```
 
-The application should be available at http://0.0.0.0:8080
+The application should be available at http://0.0.0.0:8080/app
 
 ## About the API
 
