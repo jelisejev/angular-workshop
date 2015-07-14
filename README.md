@@ -39,3 +39,71 @@ The API endpoint is http://api.themoviedb.org/3/. The following API key can be u
 ## Step-by-step guide
 
 The following guide contains step-by-step instructions on how to recreate this app. The guide is divided into multiple steps, each focusing on its own aspect of Angular JS. In case you get stuck at some point or you'll wish to fast-forward ahead, the final results of each step is available in the `tags` folder.
+
+### Step 1: initial markup and styles
+
+The result of step 1 is already available in the `app` folder. It contains the basic HTML markup and CSS styles that will be used in the project.
+
+It contains two files:
+
+`index.html`
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title></title>
+</head>
+<body>
+    <div class="search">
+        <input placeholder="Search">
+        <ul class="results">
+            <li>Result 1</li>
+            <li>Result 2</li>
+            <li>Result 3</li>
+        </ul>
+    </div>
+</body>
+</html>
+```
+
+and `styles.css`
+```css
+.search {
+    display: block;
+    margin: auto;
+    width: 400px;
+}
+
+.search input {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.search .results {
+    list-style-type: none;
+    width: 400px;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 10;
+    background: white;
+}
+
+.search .results li {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 10px;
+}
+
+.search .results li:hover {
+    background: #DCEFFC;
+}
+```
