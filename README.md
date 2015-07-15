@@ -512,3 +512,192 @@ angular.module('moviedb')
         };
     });
 ```
+
+### Step 7. Routing
+
+In this final step we'll implement basic routing and turn our project into a complete single page app.
+
+Routing is implemented using the ``ng-route`` module so we need to install it.
+```
+bower install angular-route --save
+```
+
+Define the routes in 'app.js'.
+```js
+angular.module('moviedb', ['ngResource', 'ngRoute'])
+    .constant('apiKey', '739c4bd0ee4c3bb16d622312d23d7b8a')
+    .config(['$routeProvider',
+      function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateUrl: 'js/controllers/main.html',
+            controller: 'MainController',
+            controllerAs: 'vm'
+          }).
+          when('/movie/:movieId', {
+            templateUrl: 'js/controllers/movie.html',
+            controller: 'MovieController',
+            controllerAs: 'vm'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      }]);
+```
+
+Update the `movie-search` directive in `movie-search.js` to navigate to a link instead of triggering a callback.
+```js
+angular.module('moviedb').directive('mdbMovieSearch', function(movies, $location) {
+    return {
+        replace: true,
+        templateUrl: 'js/directives/movie-search.html',
+        scope: {
+        },
+        bindToController: true,
+        controllerAs: 'vm',
+        controller: function() {
+            // mock search results
+            this.results = [];
+
+            // search onchange handler
+            this.search = function(query) {
+                movies.search(query).then(function(response) {
+                    this.results = response.results;
+                }.bind(this));
+            };
+
+            // click handler
+            this.select = function(movie) {
+                this.results = [];
+
+                $location.path('/movie/' + movie.id);
+            }
+        }
+    }
+});
+```
+
+Remove the callback from `main.js`.
+```js
+angular.module('moviedb')
+    .controller('MainController', function($location) {
+});
+```
+
+Add a template for the `main` controller and save it as `js/controllers/main.html`.
+```html
+<h1>Movie Database</h1>
+<mdb-movie-search></mdb-movie-search>
+```
+
+Update the styles for it in `styles.css`.
+```css
+.search {
+    display: block;
+    margin: auto;
+    width: 400px;
+}
+
+.search input {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.search .results {
+    list-style-type: none;
+    width: 400px;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 10;
+    background: white;
+}
+
+.search .results li {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 10px;
+}
+
+.search .results li:hover {
+    background: #DCEFFC;
+}
+
+.movie {
+    width: 600px;
+    margin: 50px auto 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 100px;
+}
+```
+
+Implement a `findById` method in the `movie` service to allow searching for specific movies.
+```js
+angular.module('moviedb')
+    .factory('movies', function($resource, apiKey) {
+        return {
+            search: function(query) {
+                return $resource('http://api.themoviedb.org/3/search/movie').get({
+                    query: query,
+                    api_key: apiKey
+                }).$promise;
+            },
+
+            findById: function(id) {
+                return $resource('http://api.themoviedb.org/3/movie/:id').get({
+                    id: id,
+                    api_key: apiKey
+                }).$promise;
+            }
+        }
+    });
+```
+
+Add a new 'movie' controller and save it as `js/controllers/movie.js`.
+```js
+angular.module('moviedb')
+    .controller('MovieController', function(movies, $routeParams) {
+        movies.findById($routeParams.movieId).then(function(movie) {
+            this.movie = movie;
+        }.bind(this));
+    });
+```
+
+Add a template for it under `js/controllers/movie.html`.
+```html
+<mdb-movie-search></mdb-movie-search>
+<mdb-movie movie="vm.movie" ng-if="vm.movie"></mdb-movie>
+```
+
+Finally, update `index.html` to include the new files and the view placeholder.
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <script src="js/controllers/movie.js"></script>
+    <script src="js/services/movies.js"></script>
+    <script src="js/directives/movie-search.js"></script>
+    <script src="js/directives/movie.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb">
+    <div ng-view></div>
+</body>
+</html>
+```
