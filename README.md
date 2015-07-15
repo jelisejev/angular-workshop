@@ -701,3 +701,7 @@ Finally, update `index.html` to include the new files and the view placeholder.
 </body>
 </html>
 ```
+
+## Conclusion
+
+Thanks you for participating in the workshop. If you have any follow up questions feel free to [contact me](https://www.facebook.com/jelisejev.p).
