@@ -1,4 +1,4 @@
-angular.module('moviedb').directive('mdbMovie', function() {
+angular.module('moviedb').directive('mdbMovie', function(movies) {
     return {
         replace: true,
         templateUrl: 'js/directives/movie.html',
@@ -6,6 +6,7 @@ angular.module('moviedb').directive('mdbMovie', function() {
             movie: '='
         },
         bindToController: true,
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        controller: function() {}
     }
 });

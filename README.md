@@ -415,7 +415,7 @@ In this step we will refactor the existing code by adding custom HTML components
 
 First, lets implement the 'movie' directive. Define the directive and save it under `js/directives/movie.js`.
 ```js
-angular.module('moviedb').directive('mdbMovie', function() {
+angular.module('moviedb').directive('mdbMovie', function(movies) {
     return {
         replace: true,
         templateUrl: 'js/directives/movie.html',
@@ -423,7 +423,8 @@ angular.module('moviedb').directive('mdbMovie', function() {
             movie: '='
         },
         bindToController: true,
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        controller: function() {}
     }
 });
 ```
