@@ -165,3 +165,62 @@ Update the `index.html` file to include the newly created files and implement th
 </body>
 </html>
 ```
+
+### Step 3. Working with the API
+
+In this step we'll intergrate our Angular app with the remote API using the $resource service.
+
+First of all, you'll need to install the `ng-resource` module using bower.
+
+```
+bower install angular-resource --save
+```
+
+After that, declare the module as a dependency of your all in ``app.js``
+```
+angular.module('moviedb', ['ngResource']);
+```
+
+And include it in `index.html`
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <div class="search">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
+        <ul class="results">
+            <li ng-repeat="result in vm.results">{{result.title}}</li>
+        </ul>
+    </div>
+</body>
+</html>
+```
+
+Finally, update `main.js` to request the movie list from the API.
+```js
+angular.module('moviedb')
+    .controller('MainController', function($resource) {
+        this.results = [];
+
+        // search onchange handler
+        this.search = function(query) {
+            var promise = $resource('http://api.themoviedb.org/3/search/movie').get({
+                query: query,
+                api_key: '739c4bd0ee4c3bb16d622312d23d7b8a'
+            }).$promise;
+
+            promise.then(function(response) {
+                this.results = response.results;
+            }.bind(this));
+        };
+    });
+```
