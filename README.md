@@ -408,3 +408,107 @@ angular.module('moviedb')
         };
     });
 ```
+
+### Step 6. Using Angular directives
+
+In this step we will refactor the existing code by adding custom HTML components called directives. We'll implement two directives: ``movie`` and ``movie-search``.
+
+First, lets implement the 'movie' directive. Define the directive and save it under `js/directives/movie.js`.
+```js
+angular.module('moviedb').directive('mdbMovie', function(movies) {
+    return {
+        replace: true,
+        templateUrl: 'js/directives/movie.html',
+        scope: {
+            movie: '='
+        },
+        bindToController: true,
+        controllerAs: 'vm',
+        controller: function() {}
+    }
+});
+```
+
+Create a template for it and save it as `js/directives/movie.html`.
+```html
+<div class="movie">
+    <h2>{{vm.movie.title}}</h2>
+    <p>{{vm.movie.overview}}</p>
+</div>
+```
+
+Define the `movie-search` directive and save it as `js/directives/movie-search.js`.
+```js
+angular.module('moviedb').directive('mdbMovieSearch', function(movies) {
+    return {
+        replace: true,
+        templateUrl: 'js/directives/movie-search.html',
+        scope: {
+            onSelect: '&'
+        },
+        bindToController: true,
+        controllerAs: 'vm',
+        controller: function() {
+            // mock search results
+            this.results = [];
+
+            // search onchange handler
+            this.search = function(query) {
+                movies.search(query).then(function(response) {
+                    this.results = response.results;
+                }.bind(this));
+            };
+
+            // click handler
+            this.select = function(movie) {
+                this.results = [];
+                this.onSelect({ movie: movie });
+            }
+        }
+    }
+});
+```
+
+And create a template for it in `js/directives/movie-search.js`.
+```html
+<div class="search">
+    <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
+    <ul class="results">
+        <li ng-repeat="result in vm.results" ng-click="vm.select(result)">{{result.title}}</li>
+    </ul>
+</div>
+```
+
+Include the directives in `index.html`.
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <script src="js/services/movies.js"></script>
+    <script src="js/directives/movie-search.js"></script>
+    <script src="js/directives/movie.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <mdb-movie-search on-select="vm.select(movie)"></mdb-movie-search>
+    <mdb-movie movie="vm.movie" ng-if="vm.movie"></mdb-movie>
+</body>
+</html>
+```
+
+Remove all of the logic that has been implemented in the directives from `main.js`.
+```js
+angular.module('moviedb')
+    .controller('MainController', function(movies) {
+        // click handler
+        this.select = function(movie) {
+            this.movie = movie;
+        };
+    });
+```
