@@ -331,3 +331,80 @@ As a finishing touch update `styles.css`.
     margin: 50px auto 0 auto;
 }
 ```
+
+### Step 5. Creating a custom service
+
+During this step we will not add any additional functionality, but rather see how we can improve the code using Angular services.
+
+First of all, create a new `movies` service and save it under `js/services/movies.js`
+
+```js
+angular.module('moviedb')
+    .factory('movies', function($resource, apiKey) {
+        return {
+            search: function(query) {
+                return $resource('http://api.themoviedb.org/3/search/movie').get({
+                    query: query,
+                    api_key: apiKey
+                }).$promise;
+            }
+        }
+    });
+```
+
+Add it to `index.html`.
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <script src="js/services/movies.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <div class="search">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
+        <ul class="results">
+            <li ng-repeat="result in vm.results" ng-click="vm.select(result)">{{result.title}}</li>
+        </ul>
+    </div>
+    <div class="movie" ng-if="vm.movie">
+        <h2>{{vm.movie.title}}</h2>
+        <p>{{vm.movie.overview}}</p>
+    </div>
+</body>
+</html>
+```
+
+Move the API key into `app.js` to be later injected where necessary.
+```js
+angular.module('moviedb', ['ngResource'])
+    .constant('apiKey', '739c4bd0ee4c3bb16d622312d23d7b8a');
+```
+
+Update `main.js` to use the `movie` service instead of `$resource` directly.
+
+```js
+angular.module('moviedb')
+    .controller('MainController', function(movies) {
+        this.results = [];
+
+        // search onchange handler
+        this.search = function(query) {
+            movies.search(query).then(function(response) {
+                this.results = response.results;
+            }.bind(this));
+        };
+
+        // click handler
+        this.select = function(movie) {
+            this.movie = movie;
+            this.results = [];
+        };
+    });
+```
