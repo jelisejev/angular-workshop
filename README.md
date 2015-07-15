@@ -224,3 +224,110 @@ angular.module('moviedb')
         };
     });
 ```
+
+Step 4. Implementing movie selection
+
+In this step we'll use the accuired knowledge to implement the ability to properly select movies. 
+
+Update `main.js` to define a `movie` binding and a `select` handler.
+
+```js
+angular.module('moviedb')
+    .controller('MainController', function($resource) {
+        this.results = [];
+        this.movie = null;
+
+        // search onchange handler
+        this.search = function(query) {
+            var promise = $resource('http://api.themoviedb.org/3/search/movie').get({
+                query: query,
+                api_key: '739c4bd0ee4c3bb16d622312d23d7b8a'
+            }).$promise;
+
+            promise.then(function(response) {
+                this.results = response.results;
+            }.bind(this));
+        };
+
+        // click handler
+        this.select = function(movie) {
+            this.movie = movie;
+            this.results = [];
+        };
+    });
+```
+
+Update the markup in `index.html` to include the movie block.
+
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/main.js"></script>
+    <title></title>
+</head>
+<body ng-app="moviedb" ng-controller="MainController as vm">
+    <div class="search">
+        <input placeholder="Search" ng-model="vm.query" ng-change="vm.search(vm.query)">
+        <ul class="results">
+            <li ng-repeat="result in vm.results" ng-click="vm.select(result)">{{result.title}}</li>
+        </ul>
+    </div>
+    <div class="movie" ng-if="vm.movie">
+        <h2>{{vm.movie.title}}</h2>
+        <p>{{vm.movie.overview}}</p>
+    </div>
+</body>
+</html>
+```
+
+As a finishing touch update `styles.css`.
+
+```css
+.search {
+    display: block;
+    margin: auto;
+    width: 400px;
+}
+
+.search input {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.search .results {
+    list-style-type: none;
+    width: 400px;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 10;
+    background: white;
+}
+
+.search .results li {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 10px;
+}
+
+.search .results li:hover {
+    background: #DCEFFC;
+}
+
+.movie {
+    width: 600px;
+    margin: 50px auto 0 auto;
+}
+```
