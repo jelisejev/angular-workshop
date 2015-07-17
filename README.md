@@ -580,7 +580,7 @@ angular.module('moviedb').directive('mdbMovieSearch', function(movies, $location
 Remove the callback from `main.js`.
 ```js
 angular.module('moviedb')
-    .controller('MainController', function($location) {
+    .controller('MainController', function() {
 });
 ```
 
