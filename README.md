@@ -225,7 +225,7 @@ angular.module('moviedb')
     });
 ```
 
-Step 4. Implementing movie selection
+### Step 4. Implementing movie selection
 
 In this step we'll use the accuired knowledge to implement the ability to properly select movies. 
 
